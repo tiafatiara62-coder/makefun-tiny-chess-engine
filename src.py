@@ -4,6 +4,7 @@ V=[0,82,337,365,477,1025,0];import base64
 T=[b if b<128 else b-256 for b in base64.b64decode('AAAAAAAAAABihj1fRH4i9foHGh9BOBns8g0GFRcMEenl/vsMEQYK5+b8/PYDAyH03f/s6fEYJuoAAAAAAAAAAFmn3s89n/GVt9dIJBc+B+/RPCVBVIFJLPcREzUlRRIW8wQQDRwTFfjp9wwKExEZ8OPL9P3/EvLtl+vG3+/k7enjBK7b59YH+OYQ7vMeOxLR8CUrKCMyJf78BRMyJSUH/voNDRoiDAoEAA8PDw4bEgoEDxAABxUhAd/98uvz9NnrICogMz8JHysbIDo+UEMaLPsTGiQRLT0Q6PUHGhgj+Ozc5vT/CfkG6dPn8O8DAPvf1PDs9/8L+rnt8wEREAfb5uQAHQw7LCst6Nn7AfA5HDbz7wcIHTgvOeXl8PD/Ef4B9+b39v78A/3yAvX++wIOBd34CwIID/0B/+73CvHn4c6/FxDxyN4CDR3/7Pn4/Nrj9xgC8OwGFurv7PTl4ufy3M//5dnS1N/N8vLq0tTi8eUBB/jA1fAJCPEkDMoI5BgO')]
 for i,v in [(9, 134), (64, -167), (85, 129)]: T[i]=v
 MG=[T[i*64:(i+1)*64] for i in range(6)]
+EK=[b if b<128 else b-256 for b in base64.b64decode('tt3u7vUPBO/0EQ4RESYXCwoRFw8ULSwN+BYYGxohGgPu/BUYGxcJ9e39CxUXEAf35fUEDQ4E++/L3uv15PLo1Q==')]
 KN=[-33,-31,-18,-14,14,18,31,33];KI=[-17,-16,-15,-1,1,15,16,17]
 BD=[-17,-15,15,17];RD=[-16,-1,1,16]
 R=random.Random(20261113)
@@ -172,8 +173,9 @@ def nuk(und):
     oep,oh=und
     side^=1;ep=oep;h=oh
 def ev():
-    s=mg+25*(bw>=2)-25*(bb>=2)
-    if ph<8: s+=((7-abs((kw&7)-3)-abs((kw>>4)-3))-(7-abs((kb&7)-3)-abs((kb>>4)-3)))*6
+    iw=(7-(kw>>4))*8+(kw&7);ib=(kb>>4)*8+(kb&7)
+    mk=MG[5][iw]-MG[5][ib];ek=EK[iw]-EK[ib]
+    s=mg-mk+(mk*ph+ek*(24-ph))//24+25*(bw>=2)-25*(bb>=2)
     return s if side==0 else -s
 def odr(ms,ply,ttm):
     sc=[]
@@ -228,7 +230,6 @@ def sch(d,a,be,ply,seen):
             s=sv-(ply if sv>MATE-1000 else -ply if sv<-MATE+1000 else 0)
             if fl==1 or (fl==2 and s>=be) or (fl==3 and s<=a): return s
     chk=ich()
-    if chk: d+=1
     if d>=3 and ply>0 and not chk and ev()>=be and ph>0:
         und=nmk()
         try: s=-sch(d-3,-be,-be+1,ply+1,seen)
