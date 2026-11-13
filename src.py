@@ -228,6 +228,7 @@ def sch(d,a,be,ply,seen):
             s=sv-(ply if sv>MATE-1000 else -ply if sv<-MATE+1000 else 0)
             if fl==1 or (fl==2 and s>=be) or (fl==3 and s<=a): return s
     chk=ich()
+    if chk: d+=1
     if d>=3 and ply>0 and not chk and ev()>=be and ph>0:
         und=nmk()
         try: s=-sch(d-3,-be,-be+1,ply+1,seen)
