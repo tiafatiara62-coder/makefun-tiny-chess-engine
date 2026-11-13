@@ -13,7 +13,8 @@ PHW=[0,0,1,1,2,4,0]
 CR={0:2,7:1,112:8,119:4}
 b=[0]*128;side=0;cast=0;ep=-1;half=0;mg=0;ph=0;bw=0;bb=0;h=0;kw=0;kb=0
 TT={};KIL=[[0,0] for _ in range(128)];HIS=[0]*32768
-NODES=0;BUDGET=25000
+NODES=0;BUDGET=50000
+SQS=[s for s in range(128) if not s&0x88]
 class Abort(Exception): pass
 def s64(s): return (s>>4)*8+(s&7)
 def psa(pc,sq,sgn):
@@ -70,8 +71,7 @@ def ich():
 def gn(ms,caps):
     us=side;them=us^1;fwd=16 if us==0 else -16
     sr=1 if us==0 else 6;lr=7 if us==0 else 0
-    for s in range(128):
-        if s&0x88: continue
+    for s in SQS:
         pc=b[s]
         if not pc or (pc>>3)!=us: continue
         t=pc&7
